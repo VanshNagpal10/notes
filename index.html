@@ -1,0 +1,1625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Mid-Term Study Notes | Unit III & IV</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2333;
+    --border: #30363d;
+    --accent: #f0883e;
+    --accent2: #58a6ff;
+    --accent3: #3fb950;
+    --accent4: #bc8cff;
+    --accent5: #ff7b72;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --text-dim: #c9d1d9;
+    --code-bg: #0d1117;
+    --unit3: #f0883e;
+    --unit4: #58a6ff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Lora', Georgia, serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+    font-size: 16px;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0d1117 0%, #1a1f35 50%, #0d1117 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 40px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 50%, rgba(240,136,62,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 70% 50%, rgba(88,166,255,0.08) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(240,136,62,0.15);
+    border: 1px solid rgba(240,136,62,0.4);
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 14px;
+    background: linear-gradient(90deg, #f0883e, #ff7b72, #bc8cff, #58a6ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    color: var(--text-muted);
+    font-size: 16px;
+    font-style: italic;
+    max-width: 600px;
+    margin: 0 auto 30px;
+  }
+  .unit-tags {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .unit-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 20px;
+    border-radius: 8px;
+    letter-spacing: 1px;
+  }
+  .unit-tag.u3 { background: rgba(240,136,62,0.15); border: 1px solid var(--unit3); color: var(--unit3); }
+  .unit-tag.u4 { background: rgba(88,166,255,0.15); border: 1px solid var(--unit4); color: var(--unit4); }
+
+  /* TOC */
+  .toc {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 30px 36px;
+    max-width: 960px;
+    margin: 40px auto;
+  }
+  .toc-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+  .toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .toc a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: all 0.2s;
+    display: block;
+  }
+  .toc a:hover { background: var(--surface2); color: var(--accent); }
+  .toc a.u3-link { border-left: 3px solid var(--unit3); }
+  .toc a.u4-link { border-left: 3px solid var(--unit4); }
+
+  /* LAYOUT */
+  .container { max-width: 960px; margin: 0 auto; padding: 0 24px 80px; }
+
+  /* UNIT HEADERS */
+  .unit-header {
+    margin: 50px 0 30px;
+    padding: 30px 36px;
+    border-radius: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+  .unit-header.u3 {
+    background: linear-gradient(135deg, rgba(240,136,62,0.12), rgba(240,136,62,0.03));
+    border: 1px solid rgba(240,136,62,0.3);
+  }
+  .unit-header.u4 {
+    background: linear-gradient(135deg, rgba(88,166,255,0.12), rgba(88,166,255,0.03));
+    border: 1px solid rgba(88,166,255,0.3);
+  }
+  .unit-header .unit-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .unit-header.u3 .unit-num { color: var(--unit3); }
+  .unit-header.u4 .unit-num { color: var(--unit4); }
+  .unit-header h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text);
+  }
+  .unit-header p { color: var(--text-muted); margin-top: 8px; font-size: 15px; font-style: italic; }
+
+  /* TOPIC SECTIONS */
+  .topic {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 32px 36px;
+    margin-bottom: 24px;
+    transition: border-color 0.2s;
+  }
+  .topic:hover { border-color: #40464e; }
+  .topic-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .topic-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .icon-u3 { background: rgba(240,136,62,0.15); }
+  .icon-u4 { background: rgba(88,166,255,0.15); }
+  .topic h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .topic-sub { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted); }
+
+  /* DEFINITION BOX */
+  .definition {
+    background: rgba(88,166,255,0.07);
+    border: 1px solid rgba(88,166,255,0.25);
+    border-left: 4px solid var(--accent2);
+    border-radius: 0 10px 10px 0;
+    padding: 16px 20px;
+    margin: 18px 0;
+  }
+  .definition .def-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 6px;
+  }
+  .definition p { color: var(--text-dim); font-size: 15px; }
+
+  /* KEY POINT */
+  .key-point {
+    background: rgba(240,136,62,0.07);
+    border: 1px solid rgba(240,136,62,0.25);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 20px;
+    margin: 14px 0;
+    font-size: 15px;
+    color: var(--text-dim);
+  }
+  .key-point strong { color: var(--accent); font-weight: 600; }
+
+  /* TIP BOX */
+  .tip {
+    background: rgba(63,185,80,0.07);
+    border: 1px solid rgba(63,185,80,0.25);
+    border-left: 4px solid var(--accent3);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 20px;
+    margin: 14px 0;
+    font-size: 15px;
+    color: var(--text-dim);
+  }
+  .tip strong { color: var(--accent3); }
+
+  /* WARNING */
+  .warning {
+    background: rgba(255,123,114,0.07);
+    border: 1px solid rgba(255,123,114,0.25);
+    border-left: 4px solid var(--accent5);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 20px;
+    margin: 14px 0;
+    font-size: 15px;
+    color: var(--text-dim);
+  }
+  .warning strong { color: var(--accent5); }
+
+  /* CODE BLOCKS */
+  .code-wrap {
+    background: #0a0e14;
+    border: 1px solid #21262d;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 18px 0;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .code-label {
+    background: #161b22;
+    border-bottom: 1px solid #21262d;
+    padding: 8px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .code-label .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .code-label .dot.r { background: #ff5f57; }
+  .code-label .dot.y { background: #ffbd2e; }
+  .code-label .dot.g { background: #28ca41; }
+  pre {
+    padding: 20px;
+    overflow-x: auto;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: #c9d1d9;
+  }
+  .kw { color: #ff7b72; }        /* keywords */
+  .fn { color: #d2a8ff; }        /* functions */
+  .str { color: #a5d6ff; }       /* strings */
+  .cm { color: #8b949e; font-style: italic; } /* comments */
+  .num { color: #79c0ff; }       /* numbers */
+  .cls { color: #f0883e; }       /* class names */
+  .var { color: #e6edf3; }       /* variables */
+  .builtin { color: #ffa657; }   /* builtins */
+  .op { color: #ff7b72; }        /* operators */
+
+  /* DIAGRAMS */
+  .diagram {
+    background: #0a0e14;
+    border: 1px solid #21262d;
+    border-radius: 10px;
+    padding: 28px 24px;
+    margin: 20px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    overflow-x: auto;
+    line-height: 1.6;
+  }
+  .diagram .d-title {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .diag-orange { color: var(--accent); }
+  .diag-blue { color: var(--accent2); }
+  .diag-green { color: var(--accent3); }
+  .diag-purple { color: var(--accent4); }
+  .diag-red { color: var(--accent5); }
+  .diag-gray { color: var(--text-muted); }
+
+  /* TABLES */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 18px 0;
+    font-size: 14px;
+  }
+  th {
+    background: var(--surface2);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 12px 16px;
+    text-align: left;
+    border: 1px solid var(--border);
+  }
+  td {
+    padding: 11px 16px;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    vertical-align: top;
+    font-size: 14px;
+  }
+  td code, th code {
+    font-family: 'JetBrains Mono', monospace;
+    background: rgba(88,166,255,0.1);
+    color: var(--accent2);
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+  tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+  /* INLINE CODE */
+  p code, li code {
+    font-family: 'JetBrains Mono', monospace;
+    background: rgba(88,166,255,0.1);
+    color: var(--accent2);
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+
+  /* LISTS */
+  ul, ol { padding-left: 24px; margin: 12px 0; }
+  li { margin: 6px 0; color: var(--text-dim); font-size: 15px; }
+  li strong { color: var(--text); }
+
+  p { color: var(--text-dim); font-size: 15px; margin: 10px 0; }
+
+  h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--accent4);
+    margin: 22px 0 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 30px 0;
+  }
+
+  /* SUMMARY CARD */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    margin: 18px 0;
+  }
+  .summary-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .summary-card .sc-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .summary-card .sc-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--accent2);
+    font-weight: 500;
+  }
+
+  @media (max-width: 640px) {
+    .toc-grid { grid-template-columns: 1fr; }
+    .topic { padding: 22px 20px; }
+    .hero { padding: 40px 20px 36px; }
+    .unit-header { padding: 22px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">📚 Mid-Term Exam Prep</div>
+  <h1>Python Programming Notes</h1>
+  <p>Comprehensive study guide covering every topic — with code, diagrams & examples</p>
+  <div class="unit-tags">
+    <span class="unit-tag u3">📁 Unit III — Files & Organizing</span>
+    <span class="unit-tag u4">🌐 Unit IV — Web Scraping</span>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="container">
+<div class="toc">
+  <div class="toc-title">📋 Table of Contents</div>
+  <div class="toc-grid">
+    <div>
+      <a href="#files-paths" class="u3-link">1. Files and File Paths</a>
+      <a href="#ospath" class="u3-link">2. The os.path Module</a>
+      <a href="#file-rw" class="u3-link">3. File Reading/Writing Process</a>
+      <a href="#shelve" class="u3-link">4. The shelve Module</a>
+      <a href="#pprint" class="u3-link">5. pprint.pformat() Function</a>
+    </div>
+    <div>
+      <a href="#shutil" class="u3-link">6. The shutil Module</a>
+      <a href="#walk" class="u3-link">7. Walking a Directory Tree</a>
+      <a href="#zipfile" class="u3-link">8. Compressing with zipfile</a>
+      <a href="#webbrowser" class="u4-link">9. MAPIT.PY & webbrowser Module</a>
+      <a href="#requests" class="u4-link">10. requests Module & Downloading Files</a>
+      <a href="#html" class="u4-link">11. HTML Basics for Web Scraping</a>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== UNIT III ===================== -->
+<div class="unit-header u3">
+  <div class="unit-num">Unit III</div>
+  <h2>Reading/Writing Files & Organizing Files</h2>
+  <p>Working with the file system, saving data, and managing files using Python's built-in modules</p>
+</div>
+
+<!-- 1. FILES & FILE PATHS -->
+<div class="topic" id="files-paths">
+  <div class="topic-header">
+    <div class="topic-icon icon-u3">📁</div>
+    <div>
+      <h3>1. Files and File Paths</h3>
+      <div class="topic-sub">UNIT III · Fundamental Concept</div>
+    </div>
+  </div>
+
+  <div class="definition">
+    <div class="def-label">Definition</div>
+    <p>A <strong>file</strong> is a named location on disk that stores information permanently. A <strong>file path</strong> is the address that tells the computer exactly where a file is stored — like a street address for your data.</p>
+  </div>
+
+  <h4>Types of File Paths</h4>
+
+  <div class="diagram">
+    <div class="d-title">🗺️ Absolute vs Relative Paths</div>
+<pre style="padding:0; background:transparent; font-size:13px;">
+<span class="diag-orange">ABSOLUTE PATH</span> — starts from root, complete address
+<span class="diag-blue">──────────────────────────────────────────────────</span>
+Windows :  <span class="diag-green">C:\Users\Vansh\Documents\project\main.py</span>
+Mac/Linux: <span class="diag-green">/home/vansh/Documents/project/main.py</span>
+
+<span class="diag-orange">RELATIVE PATH</span> — relative to the CURRENT WORKING DIRECTORY
+<span class="diag-blue">──────────────────────────────────────────────────</span>
+Current Dir: C:\Users\Vansh\Documents\
+Relative:    <span class="diag-green">project\main.py</span>      ← goes INTO project folder
+             <span class="diag-green">.\main.py</span>           ← dot (.) = current folder
+             <span class="diag-green">..\other.py</span>         ← dotdot (..) = go UP one level
+</pre>
+  </div>
+
+  <h4>Path Separators</h4>
+  <table>
+    <tr><th>OS</th><th>Separator</th><th>Example</th></tr>
+    <tr><td>Windows</td><td><code>\</code> (backslash)</td><td><code>C:\Users\Vansh\file.txt</code></td></tr>
+    <tr><td>Mac / Linux</td><td><code>/</code> (forward slash)</td><td><code>/home/vansh/file.txt</code></td></tr>
+  </table>
+
+  <div class="warning">
+    <strong>⚠️ Windows Tip:</strong> In Python strings, <code>\</code> is an escape character. Use raw strings <code>r"C:\Users\file"</code> or double backslash <code>"C:\\Users\\file"</code> to avoid errors.
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-label"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span> &nbsp;file_paths.py</div>
+<pre><span class="kw">import</span> os
+
+<span class="cm"># Get current working directory</span>
+cwd = os.<span class="fn">getcwd</span>()
+<span class="fn">print</span>(cwd)  <span class="cm"># e.g., C:\Users\Vansh</span>
+
+<span class="cm"># Change the working directory</span>
+os.<span class="fn">chdir</span>(<span class="str">'C:\\Users\\Vansh\\Documents'</span>)
+
+<span class="cm"># Join paths safely (works on ALL operating systems)</span>
+path = os.path.<span class="fn">join</span>(<span class="str">'Users'</span>, <span class="str">'Vansh'</span>, <span class="str">'notes.txt'</span>)
+<span class="fn">print</span>(path)  <span class="cm"># Users\Vansh\notes.txt (Windows) or Users/Vansh/notes.txt (Linux)</span>
+
+<span class="cm"># List all files and folders in current directory</span>
+items = os.<span class="fn">listdir</span>(<span class="str">'.'</span>)
+<span class="fn">print</span>(items)  <span class="cm"># ['file1.txt', 'folder1', 'script.py', ...]</span></pre>
+  </div>
+
+  <div class="tip">
+    <strong>✅ Best Practice:</strong> Always use <code>os.path.join()</code> instead of manually typing <code>/</code> or <code>\</code>. This makes your code work on Windows AND Mac/Linux!
+  </div>
+
+  <h4>Checking if a Path Exists</h4>
+  <div class="code-wrap">
+    <div class="code-label"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span> &nbsp;check_path.py</div>
+<pre><span class="kw">import</span> os
+
+<span class="cm"># Does the path exist at all?</span>
+<span class="fn">print</span>(os.path.<span class="fn">exists</span>(<span class="str">'C:\\Windows'</span>))     <span class="cm"># True</span>
+<span class="fn">print</span>(os.path.<span class="fn">exists</span>(<span class="str">'C:\\FakeFolder'</span>))  <span class="cm"># False</span>
+
+<span class="cm"># Is it a file or a folder?</span>
+<span class="fn">print</span>(os.path.<span class="fn">isfile</span>(<span class="str">'notes.txt'</span>))    <span class="cm"># True if it's a file</span>
+<span class="fn">print</span>(os.path.<span class="fn">isdir</span>(<span class="str">'Documents'</span>))    <span class="cm"># True if it's a folder</span></pre>
+  </div>
+</div>
+
+<!-- 2. OS.PATH MODULE -->
+<div class="topic" id="ospath">
+  <div class="topic-header">
+    <div class="topic-icon icon-u3">🗂️</div>
+    <div>
+      <h3>2. The os.path Module</h3>
+      <div class="topic-sub">UNIT III · Path Manipulation Utilities</div>
+    </div>
+  </div>
+
+  <div class="definition">
+    <div class="def-label">Definition</div>
+    <p>The <code>os.path</code> module is a sub-module of <code>os</code> that provides functions to <strong>manipulate, inspect, and work with file paths</strong> in a platform-independent way. You don't have to import it separately — it comes with <code>import os</code>.</p>
+  </div>
+
+  <h4>Complete Function Reference</h4>
+  <table>
+    <tr><th>Function</th><th>What it Does</th><th>Example Output</th></tr>
+    <tr><td><code>os.path.abspath(path)</code></td><td>Returns absolute path</td><td><code>C:\Users\Vansh\notes.txt</code></td></tr>
+    <tr><td><code>os.path.basename(path)</code></td><td>Returns just the filename</td><td><code>notes.txt</code></td></tr>
+    <tr><td><code>os.path.dirname(path)</code></td><td>Returns directory portion</td><td><code>C:\Users\Vansh</code></td></tr>
+    <tr><td><code>os.path.exists(path)</code></td><td>Checks if path exists</td><td><code>True / False</code></td></tr>
+    <tr><td><code>os.path.isfile(path)</code></td><td>Is it a file?</td><td><code>True / False</code></td></tr>
+    <tr><td><code>os.path.isdir(path)</code></td><td>Is it a directory?</td><td><code>True / False</code></td></tr>
+    <tr><td><code>os.path.getsize(path)</code></td><td>Size of file in bytes</td><td><code>2048</code></td></tr>
+    <tr><td><code>os.path.join(*paths)</code></td><td>Joins path components</td><td><code>Users\Vansh\file.txt</code></td></tr>
+    <tr><td><code>os.path.split(path)</code></td><td>Returns (dirname, basename) tuple</td><td><code>('C:\\Users', 'notes.txt')</code></td></tr>
+    <tr><td><code>os.path.splitext(path)</code></td><td>Returns (name, extension) tuple</td><td><code>('notes', '.txt')</code></td></tr>
+  </table>
+
+  <div class="code-wrap">
+    <div class="code-label"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span> &nbsp;os_path_demo.py</div>
+<pre><span class="kw">import</span> os
+
+path = <span class="str">r'C:\Users\Vansh\Documents\notes.txt'</span>
+
+<span class="fn">print</span>(os.path.<span class="fn">abspath</span>(<span class="str">'notes.txt'</span>))
+<span class="cm"># C:\Users\Vansh\notes.txt  ← converts relative to absolute</span>
+
+<span class="fn">print</span>(os.path.<span class="fn">basename</span>(path))
+<span class="cm"># notes.txt</span>
+
+<span class="fn">print</span>(os.path.<span class="fn">dirname</span>(path))
+<span class="cm"># C:\Users\Vansh\Documents</span>
+
+<span class="fn">print</span>(os.path.<span class="fn">split</span>(path))
+<span class="cm"># ('C:\\Users\\Vansh\\Documents', 'notes.txt')</span>
+
+<span class="fn">print</span>(os.path.<span class="fn">splitext</span>(path))
+<span class="cm"># ('C:\\Users\\Vansh\\Documents\\notes', '.txt')</span>
+
+<span class="fn">print</span>(os.path.<span class="fn">getsize</span>(path))
+<span class="cm"># 1024  ← size in bytes</span>
+
+<span class="cm"># Practical: Find total size of all .txt files</span>
+total = <span class="num">0</span>
+<span class="kw">for</span> f <span class="kw">in</span> os.<span class="fn">listdir</span>(<span class="str">'.'</span>):
+    <span class="kw">if</span> os.path.<span class="fn">isfile</span>(f) <span class="kw">and</span> f.<span class="fn">endswith</span>(<span class="str">'.txt'</span>):
+        total += os.path.<span class="fn">getsize</span>(f)
+<span class="fn">print</span>(<span class="str">f'Total size: </span>{total}<span class="str"> bytes'</span>)</pre>
+  </div>
+
+  <div class="diagram">
+    <div class="d-title">🔬 Anatomy of a File Path</div>
+<pre style="padding:0; background:transparent;">
+ <span class="diag-orange">C:\Users\Vansh\Documents\notes.txt</span>
+ <span class="diag-blue">│         │      │         │        │
+ │         │      │         │        └── </span><span class="diag-green">extension: .txt  (splitext)</span>
+ <span class="diag-blue">│         │      │         └─────────── </span><span class="diag-green">basename: notes.txt  (basename)</span>
+ <span class="diag-blue">│         │      └───────────────────── </span><span class="diag-green">dirname: C:\Users\Vansh\Documents</span>
+ <span class="diag-blue">│         └──────────────────────────── </span><span class="diag-green">drive: C:\</span>
+ <span class="diag-blue">└────────────────────────────────────── </span><span class="diag-green">absolute path  (abspath)</span>
+</pre>
+  </div>
+</div>
+
+<!-- 3. FILE READING/WRITING -->
+<div class="topic" id="file-rw">
+  <div class="topic-header">
+    <div class="topic-icon icon-u3">✍️</div>
+    <div>
+      <h3>3. The File Reading/Writing Process</h3>
+      <div class="topic-sub">UNIT III · Core I/O Operations</div>
+    </div>
+  </div>
+
+  <div class="definition">
+    <div class="def-label">Definition</div>
+    <p>File I/O (Input/Output) is the process of <strong>opening a file, reading from or writing to it, and then closing it</strong>. Python uses the built-in <code>open()</code> function to start this process.</p>
+  </div>
+
+  <div class="diagram">
+    <div class="d-title">🔄 Complete File I/O Flowchart</div>
+<pre style="padding:0; background:transparent; font-size:12.5px;">
+         <span class="diag-orange">┌─────────────────┐</span>
+         <span class="diag-orange">│   START PROGRAM  │</span>
+         <span class="diag-orange">└────────┬────────┘</span>
+                  │
+                  ▼
+         <span class="diag-blue">┌─────────────────┐</span>
+         <span class="diag-blue">│  open(filename,  │</span>
+         <span class="diag-blue">│      mode)       │</span>
+         <span class="diag-blue">└────────┬────────┘</span>
+                  │
+        <span class="diag-gray">┌─────────┼─────────┐</span>
+        ▼                   ▼
+ <span class="diag-green">┌──────────────┐</span>   <span class="diag-red">┌──────────────┐</span>
+ <span class="diag-green">│  File Found  │</span>   <span class="diag-red">│ File Not Found│</span>
+ <span class="diag-green">│  File Object │</span>   <span class="diag-red">│  FileNotFound │</span>
+ <span class="diag-green">│  Returned    │</span>   <span class="diag-red">│    Error !!   │</span>
+ <span class="diag-green">└──────┬───────┘</span>   <span class="diag-red">└──────────────┘</span>
+        │
+        ▼
+ <span class="diag-blue">┌──────────────────────────────────────┐</span>
+ <span class="diag-blue">│           CHOOSE OPERATION            │</span>
+ <span class="diag-blue">│                                       │</span>
+ <span class="diag-blue">│  read()   → returns entire content   │</span>
+ <span class="diag-blue">│  readlines()→ returns list of lines  │</span>
+ <span class="diag-blue">│  readline()→ reads one line at a time│</span>
+ <span class="diag-blue">│  write()  → writes string to file    │</span>
+ <span class="diag-blue">│  writelines()→ writes list of strings│</span>
+ <span class="diag-blue">└──────────────────┬───────────────────┘</span>
+                    │
+                    ▼
+         <span class="diag-orange">┌─────────────────┐</span>
+         <span class="diag-orange">│   close() file   │</span>
+         <span class="diag-orange">│  (release lock)  │</span>
+         <span class="diag-orange">└─────────────────┘</span>
+</pre>
+  </div>
+
+  <h4>File Opening Modes</h4>
+  <table>
+    <tr><th>Mode</th><th>Name</th><th>Creates?</th><th>Overwrites?</th><th>Read?</th><th>Write?</th></tr>
+    <tr><td><code>'r'</code></td><td>Read</td><td>No</td><td>No</td><td>✅</td><td>❌</td></tr>
+    <tr><td><code>'w'</code></td><td>Write</td><td>Yes</td><td>Yes</td><td>❌</td><td>✅</td></tr>
+    <tr><td><code>'a'</code></td><td>Append</td><td>Yes</td><td>No (adds to end)</td><td>❌</td><td>✅</td></tr>
+    <tr><td><code>'r+'</code></td><td>Read+Write</td><td>No</td><td>No</td><td>✅</td><td>✅</td></tr>
+    <tr><td><code>'rb'</code></td><td>Read Binary</td><td>No</td><td>No</td><td>✅</td><td>❌</td></tr>
+    <tr><td><code>'wb'</code></td><td>Write Binary</td><td>Yes</td><td>Yes</td><td>❌</td><td>✅</td></tr>
+  </table>
+
+  <h4>Method 1: Traditional open/close</h4>
+  <div class="code-wrap">
+    <div class="code-label"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span> &nbsp;traditional_file.py</div>
+<pre><span class="cm"># ─── WRITING to a file ───────────────────────────────────</span>
+file = <span class="fn">open</span>(<span class="str">'hello.txt'</span>, <span class="str">'w'</span>)  <span class="cm"># open for writing (creates/overwrites)</span>
+file.<span class="fn">write</span>(<span class="str">'Hello, World!\n'</span>)   <span class="cm"># \n = new line</span>
+file.<span class="fn">write</span>(<span class="str">'This is line 2.\n'</span>)
+file.<span class="fn">close</span>()  <span class="cm"># ALWAYS close the file!</span>
+
+<span class="cm"># ─── READING from a file ─────────────────────────────────</span>
+file = <span class="fn">open</span>(<span class="str">'hello.txt'</span>, <span class="str">'r'</span>)  <span class="cm"># open for reading</span>
+content = file.<span class="fn">read</span>()         <span class="cm"># read ALL content as one string</span>
+<span class="fn">print</span>(content)
+file.<span class="fn">close</span>()
+
+<span class="cm"># ─── READING LINE BY LINE ───────────────────────────────</span>
+file = <span class="fn">open</span>(<span class="str">'hello.txt'</span>, <span class="str">'r'</span>)
+lines = file.<span class="fn">readlines</span>()  <span class="cm"># returns a LIST of lines</span>
+<span class="fn">print</span>(lines)
+<span class="cm"># ['Hello, World!\n', 'This is line 2.\n']</span>
+file.<span class="fn">close</span>()</pre>
+  </div>
+
+  <h4>Method 2: Using <code>with</code> Statement (RECOMMENDED ⭐)</h4>
+  <div class="code-wrap">
+    <div class="code-label"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span> &nbsp;with_statement.py</div>
+<pre><span class="cm"># The 'with' block AUTOMATICALLY closes the file — even if errors occur!</span>
+
+<span class="cm"># Writing</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">'diary.txt'</span>, <span class="str">'w'</span>) <span class="kw">as</span> f:
+    f.<span class="fn">write</span>(<span class="str">'Day 1: Started studying Python\n'</span>)
+    f.<span class="fn">write</span>(<span class="str">'Day 2: Learned file handling\n'</span>)
+<span class="cm"># file is automatically closed here ✅</span>
+
+<span class="cm"># Reading</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">'diary.txt'</span>, <span class="str">'r'</span>) <span class="kw">as</span> f:
+    <span class="kw">for</span> line <span class="kw">in</span> f:              <span class="cm"># iterate line by line (memory efficient!)</span>
+        <span class="fn">print</span>(line.<span class="fn">strip</span>())    <span class="cm"># strip() removes trailing \n</span>
+
+<span class="cm"># Appending (add to end without deleting existing content)</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">'diary.txt'</span>, <span class="str">'a'</span>) <span class="kw">as</span> f:
+    f.<span class="fn">write</span>(<span class="str">'Day 3: Practiced os.path module\n'</span>)
+
+<span class="cm"># Reading all lines into a list</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">'diary.txt'</span>, <span class="str">'r'</span>) <span class="kw">as</span> f:
+    all_lines = f.<span class="fn">readlines</span>()  <span class="cm"># ['Day 1: ...\n', 'Day 2: ...\n']</span>
+    single_line = f.<span class="fn">readline</span>() <span class="cm"># reads just ONE line</span></pre>
+  </div>
+
+  <div class="key-point">
+    <strong>📌 Key Difference:</strong> <code>read()</code> returns one big string. <code>readlines()</code> returns a list where each item is a line. <code>readline()</code> reads just one line at a time (useful for huge files).
+  </div>
+</div>
+
+<!-- 4. SHELVE MODULE -->
+<div class="topic" id="shelve">
+  <div class="topic-header">
+    <div class="topic-icon icon-u3">🗄️</div>
+    <div>
+      <h3>4. Saving Variables with the shelve Module</h3>
+      <div class="topic-sub">UNIT III · Persistent Data Storage</div>
+    </div>
+  </div>
+
+  <div class="definition">
+    <div class="def-label">Definition</div>
+    <p>The <code>shelve</code> module lets you save Python variables (like lists, dicts, objects) to a file and load them back later. It works like a <strong>persistent dictionary</strong> — you store values using keys, just like a regular dict, but the data survives even when the program exits.</p>
+  </div>
+
+  <div class="diagram">
+    <div class="d-title">🗄️ How shelve Works</div>
+<pre style="padding:0; background:transparent; font-size:12.5px;">
+ <span class="diag-orange">Python Program</span>            <span class="diag-blue">shelve.open('mydata')</span>         <span class="diag-green">Disk Files Created</span>
+ ──────────────           ─────────────────────          ──────────────────
+ cats = ['Zoe',    ───►   shelf['cats'] = cats    ───►   mydata.bak
+         'Luna']                                          mydata.dat
+                                                          mydata.dir
+
+ <span class="diag-gray">Later (even after restart):</span>
+
+ shelf = shelve          <span class="diag-blue">shelve.open('mydata')</span>         
+   .open('mydata') ◄───  shelf['cats']            ◄───   mydata.dat
+ print(shelf['cats'])
+ <span class="diag-green">['Zoe', 'Luna']</span>  ✅  Data is preserved!
+</pre>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-label"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span> &nbsp;shelve_demo.py</div>
+<pre><span class="kw">import</span> shelve
+
+<span class="cm"># ── SAVING data ──────────────────────────────────────────</span>
+<span class="kw">with</span> shelve.<span class="fn">open</span>(<span class="str">'myData'</span>) <span class="kw">as</span> shelf:
+    shelf[<span class="str">'cats'</span>] = [<span class="str">'Zoe'</span>, <span class="str">'Luna'</span>, <span class="str">'Mochi'</span>]
+    shelf[<span class="str">'age'</span>]  = <span class="num">21</span>
+    shelf[<span class="str">'scores'</span>] = {<span class="str">'math'</span>: <span class="num">95</span>, <span class="str">'python'</span>: <span class="num">88</span>}
+<span class="cm"># ← file automatically closed, data is saved to disk</span>
+
+<span class="cm"># ── LOADING data ─────────────────────────────────────────</span>
+<span class="kw">with</span> shelve.<span class="fn">open</span>(<span class="str">'myData'</span>) <span class="kw">as</span> shelf:
+    <span class="fn">print</span>(shelf[<span class="str">'cats'</span>])     <span class="cm"># ['Zoe', 'Luna', 'Mochi']</span>
+    <span class="fn">print</span>(shelf[<span class="str">'age'</span>])      <span class="cm"># 21</span>
+    <span class="fn">print</span>(shelf[<span class="str">'scores'</span>])   <span class="cm"># {'math': 95, 'python': 88}</span>
+
+<span class="cm"># ── KEYS and VALUES (like a regular dict!) ────────────────</span>
+<span class="kw">with</span> shelve.<span class="fn">open</span>(<span class="str">'myData'</span>) <span class="kw">as</span> shelf:
+    <span class="fn">print</span>(<span class="fn">list</span>(shelf.<span class="fn">keys</span>()))    <span class="cm"># ['cats', 'age', 'scores']</span>
+    <span class="fn">print</span>(<span class="fn">list</span>(shelf.<span class="fn">values</span>())) <span class="cm"># all stored values</span>
+
+<span class="cm"># ── DELETING an entry ─────────────────────────────────────</span>
+<span class="kw">with</span> shelve.<span class="fn">open</span>(<span class="str">'myData'</span>) <span class="kw">as</span> shelf:
+    <span class="kw">del</span> shelf[<span class="str">'age'</span>]  <span class="cm"># removes the 'age' key</span></pre>
+  </div>
+
+  <div class="key-point">
+    <strong>📌 shelve vs regular files:</strong> Regular files only store text. <code>shelve</code> stores actual Python objects — lists, dicts, numbers, even custom objects — without converting them to text first!
+  </div>
+
+  <div class="tip">
+    <strong>✅ Files created by shelve:</strong> On Windows, <code>shelve.open('myData')</code> creates 3 files: <code>myData.bak</code>, <code>myData.dat</code>, <code>myData.dir</code>. On Mac/Linux, it might just create one file. Don't worry about these files — Python manages them automatically.
+  </div>
+</div>
+
+<!-- 5. PPRINT -->
+<div class="topic" id="pprint">
+  <div class="topic-header">
+    <div class="topic-icon icon-u3">🖨️</div>
+    <div>
+      <h3>5. Saving Variables with pprint.pformat()</h3>
+      <div class="topic-sub">UNIT III · Pretty Printing & Variable Persistence</div>
+    </div>
+  </div>
+
+  <div class="definition">
+    <div class="def-label">Definition</div>
+    <p><code>pprint</code> stands for <strong>Pretty Print</strong>. The <code>pprint.pformat()</code> function converts a Python data structure (like a list or dict) into a <strong>nicely formatted, readable string</strong> that can be saved to a <code>.py</code> file and imported back later.</p>
+  </div>
+
+  <h4>pprint vs print</h4>
+  <div class="code-wrap">
+    <div class="code-label"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span> &nbsp;pprint_comparison.py</div>
+<pre><span class="kw">import</span> pprint
+
+data = {<span class="str">'name'</span>: <span class="str">'Vansh'</span>, <span class="str">'marks'</span>: [<span class="num">88</span>, <span class="num">92</span>, <span class="num">79</span>, <span class="num">95</span>], <span class="str">'city'</span>: <span class="str">'Delhi'</span>, <span class="str">'year'</span>: <span class="num">2</span>}
+
+<span class="cm"># Regular print — everything on ONE line, hard to read</span>
+<span class="fn">print</span>(data)
+<span class="cm"># {'name': 'Vansh', 'marks': [88, 92, 79, 95], 'city': 'Delhi', 'year': 2}</span>
+
+<span class="cm"># pprint — formatted nicely, each key on its own line</span>
+pprint.<span class="fn">pprint</span>(data)
+<span class="cm"># {'city': 'Delhi',</span>
+<span class="cm">#  'marks': [88, 92, 79, 95],</span>
+<span class="cm">#  'name': 'Vansh',</span>
+<span class="cm">#  'year': 2}</span>
+
+<span class="cm"># pformat — returns the string (instead of printing it)</span>
+formatted_string = pprint.<span class="fn">pformat</span>(data)
+<span class="fn">print</span>(<span class="fn">type</span>(formatted_string))  <span class="cm"># &lt;class 'str'&gt;</span></pre>
+  </div>
+
+  <h4>Saving Variables to a .py file using pformat()</h4>
+  <div class="code-wrap">
+    <div class="code-label"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span> &nbsp;save_with_pformat.py</div>
+<pre><span class="kw">import</span> pprint
+
+<span class="cm"># Our data we want to save</span>
+student_data = {
+    <span class="str">'name'</span>: <span class="str">'Vansh'</span>,
+    <span class="str">'subjects'</span>: [<span class="str">'Python'</span>, <span class="str">'DBMS'</span>, <span class="str">'OS'</span>],
+    <span class="str">'gpa'</span>: <span class="num">8.7</span>
+}
+
+<span class="cm"># SAVING — write data as valid Python code</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">'student_data.py'</span>, <span class="str">'w'</span>) <span class="kw">as</span> f:
+    f.<span class="fn">write</span>(<span class="str">'student_data = '</span> + pprint.<span class="fn">pformat</span>(student_data))
+
+<span class="cm"># student_data.py now contains:</span>
+<span class="cm"># student_data = {'gpa': 8.7,</span>
+<span class="cm">#                 'name': 'Vansh',</span>
+<span class="cm">#                 'subjects': ['Python', 'DBMS', 'OS']}</span>
+
+<span class="cm"># LOADING — import it like a regular Python file!</span>
+<span class="kw">import</span> student_data <span class="kw">as</span> sd
+<span class="fn">print</span>(sd.student_data[<span class="str">'name'</span>])  <span class="cm"># Vansh</span></pre>
+  </div>
+
+  <table>
+    <tr><th>Feature</th><th>shelve</th><th>pprint + file</th></tr>
+    <tr><td>Format</td><td>Binary (not readable)</td><td>Plain text (readable in any editor)</td></tr>
+    <tr><td>Load method</td><td><code>shelve.open()</code></td><td><code>import filename</code></td></tr>
+    <tr><td>Stores</td><td>Any Python object</td><td>Basic Python objects</td></tr>
+    <tr><td>Use when</td><td>Large/complex data</td><td>Config files, small settings</td></tr>
+  </table>
+</div>
+
+<!-- 6. SHUTIL -->
+<div class="topic" id="shutil">
+  <div class="topic-header">
+    <div class="topic-icon icon-u3">🔧</div>
+    <div>
+      <h3>6. The shutil Module</h3>
+      <div class="topic-sub">UNIT III · File & Directory Operations</div>
+    </div>
+  </div>
+
+  <div class="definition">
+    <div class="def-label">Definition</div>
+    <p><code>shutil</code> stands for <strong>Shell Utility</strong>. It provides high-level functions for <strong>copying, moving, renaming, and deleting files and entire directory trees</strong> — things you'd normally do with right-click in File Explorer, but done with code.</p>
+  </div>
+
+  <h4>Key shutil Functions</h4>
+  <table>
+    <tr><th>Function</th><th>What it Does</th></tr>
+    <tr><td><code>shutil.copy(src, dst)</code></td><td>Copies a file from src to dst (just file content)</td></tr>
+    <tr><td><code>shutil.copy2(src, dst)</code></td><td>Copies file + preserves metadata (timestamps etc.)</td></tr>
+    <tr><td><code>shutil.copytree(src, dst)</code></td><td>Copies entire folder and all its contents</td></tr>
+    <tr><td><code>shutil.move(src, dst)</code></td><td>Moves/renames a file or folder</td></tr>
+    <tr><td><code>shutil.rmtree(path)</code></td><td>Deletes entire folder and all contents ⚠️ PERMANENT</td></tr>
+  </table>
+
+  <div class="code-wrap">
+    <div class="code-label"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span> &nbsp;shutil_demo.py</div>
+<pre><span class="kw">import</span> shutil, os
+
+<span class="cm"># ── COPY a single file ────────────────────────────────────</span>
+shutil.<span class="fn">copy</span>(<span class="str">'notes.txt'</span>, <span class="str">'backup_notes.txt'</span>)
+<span class="cm"># Creates backup_notes.txt with same content</span>
+
+shutil.<span class="fn">copy</span>(<span class="str">'notes.txt'</span>, <span class="str">'C:\\Backup\\'</span>)
+<span class="cm"># Copies notes.txt INTO the Backup folder</span>
+
+<span class="cm"># ── COPY an entire folder ─────────────────────────────────</span>
+shutil.<span class="fn">copytree</span>(<span class="str">'C:\\MyProject'</span>, <span class="str">'C:\\MyProject_Backup'</span>)
+<span class="cm"># MyProject_Backup must NOT already exist!</span>
+
+<span class="cm"># ── MOVE / RENAME ─────────────────────────────────────────</span>
+shutil.<span class="fn">move</span>(<span class="str">'notes.txt'</span>, <span class="str">'C:\\Documents\\notes.txt'</span>)
+<span class="cm"># Moves the file to Documents folder</span>
+
+shutil.<span class="fn">move</span>(<span class="str">'old_name.txt'</span>, <span class="str">'new_name.txt'</span>)
+<span class="cm"># Renames the file (in same directory)</span>
+
+<span class="cm"># ── DELETE a folder permanently ⚠️ ───────────────────────</span>
+shutil.<span class="fn">rmtree</span>(<span class="str">'C:\\TempFolder'</span>)
+<span class="cm"># Deletes TempFolder and EVERYTHING inside it — NO RECYCLE BIN!</span></pre>
+  </div>
+
+  <h4>Safe Deletion: Using send2trash (Recycle Bin)</h4>
+  <div class="code-wrap">
+    <div class="code-label"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span> &nbsp;safe_delete.py</div>
+<pre><span class="cm"># Install first: pip install send2trash</span>
+<span class="kw">import</span> send2trash
+
+<span class="cm"># Safer! Sends to Recycle Bin instead of permanent deletion</span>
+send2trash.<span class="fn">send2trash</span>(<span class="str">'old_notes.txt'</span>)
+<span class="cm"># Can be recovered from Recycle Bin ✅</span></pre>
+  </div>
+
+  <div class="warning">
+    <strong>⚠️ Warning:</strong> <code>shutil.rmtree()</code> permanently deletes files — they do NOT go to the Recycle Bin. Always double-check the path before calling it. Prefer <code>send2trash</code> for safety.
+  </div>
+</div>
+
+<!-- 7. WALKING DIRECTORY TREE -->
+<div class="topic" id="walk">
+  <div class="topic-header">
+    <div class="topic-icon icon-u3">🌳</div>
+    <div>
+      <h3>7. Walking a Directory Tree</h3>
+      <div class="topic-sub">UNIT III · Recursive Directory Traversal</div>
+    </div>
+  </div>
+
+  <div class="definition">
+    <div class="def-label">Definition</div>
+    <p>"Walking" a directory tree means <strong>visiting every folder and subfolder recursively</strong> — going deeper and deeper into nested folders and listing all files found at each level. Python's <code>os.walk()</code> function does this automatically.</p>
+  </div>
+
+  <div class="diagram">
+    <div class="d-title">🌳 Directory Tree Example</div>
+<pre style="padding:0; background:transparent; font-size:12.5px;">
+ <span class="diag-orange">C:\MyFiles\</span>                   ← os.walk() starts HERE
+ ├── <span class="diag-blue">readme.txt</span>
+ ├── <span class="diag-blue">notes.py</span>
+ ├── <span class="diag-green">Photos\</span>                  ← walks INTO this folder
+ │   ├── <span class="diag-blue">holiday.jpg</span>
+ │   └── <span class="diag-blue">profile.png</span>
+ └── <span class="diag-green">Projects\</span>                ← then walks INTO this folder
+     ├── <span class="diag-blue">main.py</span>
+     └── <span class="diag-green">Utils\</span>               ← then walks INTO nested folder
+         └── <span class="diag-blue">helper.py</span>
+
+ <span class="diag-gray">os.walk() visits: MyFiles → Photos → Projects → Utils</span>
+ <span class="diag-gray">Produces 4 tuples, one per folder</span>
+</pre>
+  </div>
+
+  <h4>Understanding os.walk() Output</h4>
+  <p>For each folder it visits, <code>os.walk()</code> gives you a <strong>tuple of 3 values</strong>:</p>
+  <div class="summary-grid">
+    <div class="summary-card">
+      <div class="sc-label">Variable 1</div>
+      <div class="sc-val">dirpath</div>
+      <p style="font-size:13px; margin-top:8px;">The path of the current folder being visited</p>
+    </div>
+    <div class="summary-card">
+      <div class="sc-label">Variable 2</div>
+      <div class="sc-val">dirnames</div>
+      <p style="font-size:13px; margin-top:8px;">List of subfolder names inside current folder</p>
+    </div>
+    <div class="summary-card">
+      <div class="sc-label">Variable 3</div>
+      <div class="sc-val">filenames</div>
+      <p style="font-size:13px; margin-top:8px;">List of file names inside current folder</p>
+    </div>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-label"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span> &nbsp;os_walk_demo.py</div>
+<pre><span class="kw">import</span> os
+
+<span class="cm"># ── Basic walk ────────────────────────────────────────────</span>
+<span class="kw">for</span> dirpath, dirnames, filenames <span class="kw">in</span> os.<span class="fn">walk</span>(<span class="str">r'C:\MyFiles'</span>):
+    <span class="fn">print</span>(<span class="str">f'Current folder: </span>{dirpath}<span class="str">'</span>)
+    <span class="fn">print</span>(<span class="str">f'  Subfolders: </span>{dirnames}<span class="str">'</span>)
+    <span class="fn">print</span>(<span class="str">f'  Files: </span>{filenames}<span class="str">'</span>)
+    <span class="fn">print</span>()
+
+<span class="cm"># Output:</span>
+<span class="cm"># Current folder: C:\MyFiles</span>
+<span class="cm">#   Subfolders: ['Photos', 'Projects']</span>
+<span class="cm">#   Files: ['readme.txt', 'notes.py']</span>
+<span class="cm">#</span>
+<span class="cm"># Current folder: C:\MyFiles\Photos</span>
+<span class="cm">#   Subfolders: []</span>
+<span class="cm">#   Files: ['holiday.jpg', 'profile.png']</span>
+
+<span class="cm"># ── PRACTICAL: Find ALL .txt files in a directory tree ────</span>
+<span class="fn">print</span>(<span class="str">"All .txt files found:"</span>)
+<span class="kw">for</span> dirpath, dirnames, filenames <span class="kw">in</span> os.<span class="fn">walk</span>(<span class="str">r'C:\MyFiles'</span>):
+    <span class="kw">for</span> filename <span class="kw">in</span> filenames:
+        <span class="kw">if</span> filename.<span class="fn">endswith</span>(<span class="str">'.txt'</span>):
+            full_path = os.path.<span class="fn">join</span>(dirpath, filename)
+            <span class="fn">print</span>(full_path)
+
+<span class="cm"># ── PRACTICAL: Calculate total size of all files ──────────</span>
+total_size = <span class="num">0</span>
+<span class="kw">for</span> dirpath, dirnames, filenames <span class="kw">in</span> os.<span class="fn">walk</span>(<span class="str">r'C:\MyFiles'</span>):
+    <span class="kw">for</span> filename <span class="kw">in</span> filenames:
+        full_path = os.path.<span class="fn">join</span>(dirpath, filename)
+        total_size += os.path.<span class="fn">getsize</span>(full_path)
+<span class="fn">print</span>(<span class="str">f'Total: </span>{total_size}<span class="str"> bytes'</span>)</pre>
+  </div>
+</div>
+
+<!-- 8. ZIPFILE -->
+<div class="topic" id="zipfile">
+  <div class="topic-header">
+    <div class="topic-icon icon-u3">🗜️</div>
+    <div>
+      <h3>8. Compressing Files with zipfile Module</h3>
+      <div class="topic-sub">UNIT III · File Compression</div>
+    </div>
+  </div>
+
+  <div class="definition">
+    <div class="def-label">Definition</div>
+    <p>The <code>zipfile</code> module lets you <strong>create, read, extract, and inspect ZIP archives</strong> programmatically. A ZIP file compresses one or more files into a smaller file for storage or transfer.</p>
+  </div>
+
+  <div class="diagram">
+    <div class="d-title">🗜️ ZIP Operations Flow</div>
+<pre style="padding:0; background:transparent; font-size:12.5px;">
+   <span class="diag-orange">Files on Disk</span>         <span class="diag-blue">zipfile Module</span>          <span class="diag-green">ZIP Archive</span>
+   ─────────────         ─────────────           ─────────────
+   notes.txt    ───►
+   photos.jpg   ───►  ZipFile('archive.zip','w')  ───►  archive.zip
+   main.py      ───►                                     (compressed!)
+
+   <span class="diag-gray">Extracting:</span>
+
+   archive.zip  ───►  ZipFile('archive.zip','r')  ───►  notes.txt
+                      .extractall('output/')             photos.jpg
+                                                         main.py
+</pre>
+  </div>
+
+  <h4>ZipFile Opening Modes</h4>
+  <table>
+    <tr><th>Mode</th><th>Purpose</th></tr>
+    <tr><td><code>'r'</code></td><td>Read an existing ZIP file</td></tr>
+    <tr><td><code>'w'</code></td><td>Create a new ZIP file (overwrites if exists)</td></tr>
+    <tr><td><code>'a'</code></td><td>Append files to existing ZIP</td></tr>
+    <tr><td><code>'x'</code></td><td>Create new ZIP, error if already exists</td></tr>
+  </table>
+
+  <div class="code-wrap">
+    <div class="code-label"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span> &nbsp;zipfile_demo.py</div>
+<pre><span class="kw">import</span> zipfile
+
+<span class="cm"># ── READING a ZIP file ─────────────────────────────────────</span>
+<span class="kw">with</span> zipfile.<span class="cls">ZipFile</span>(<span class="str">'archive.zip'</span>, <span class="str">'r'</span>) <span class="kw">as</span> zf:
+    <span class="fn">print</span>(zf.<span class="fn">namelist</span>())         <span class="cm"># List all files inside</span>
+    <span class="cm"># ['notes.txt', 'photos/holiday.jpg', 'main.py']</span>
+    
+    info = zf.<span class="fn">getinfo</span>(<span class="str">'notes.txt'</span>)
+    <span class="fn">print</span>(info.file_size)         <span class="cm"># original size in bytes</span>
+    <span class="fn">print</span>(info.compress_size)     <span class="cm"># compressed size</span>
+
+<span class="cm"># ── EXTRACTING from a ZIP file ────────────────────────────</span>
+<span class="kw">with</span> zipfile.<span class="cls">ZipFile</span>(<span class="str">'archive.zip'</span>, <span class="str">'r'</span>) <span class="kw">as</span> zf:
+    zf.<span class="fn">extractall</span>(<span class="str">'output_folder'</span>)   <span class="cm"># extracts ALL files</span>
+    zf.<span class="fn">extract</span>(<span class="str">'notes.txt'</span>, <span class="str">'output'</span>)  <span class="cm"># extract ONLY one file</span>
+
+<span class="cm"># ── CREATING a ZIP file ───────────────────────────────────</span>
+<span class="kw">import</span> zipfile
+
+<span class="kw">with</span> zipfile.<span class="cls">ZipFile</span>(<span class="str">'my_backup.zip'</span>, <span class="str">'w'</span>) <span class="kw">as</span> zf:
+    zf.<span class="fn">write</span>(<span class="str">'notes.txt'</span>)          <span class="cm"># adds notes.txt</span>
+    zf.<span class="fn">write</span>(<span class="str">'main.py'</span>)            <span class="cm"># adds main.py</span>
+
+<span class="cm"># ── CREATING a ZIP from an entire folder ──────────────────</span>
+<span class="kw">import</span> zipfile, os
+
+<span class="kw">with</span> zipfile.<span class="cls">ZipFile</span>(<span class="str">'project_backup.zip'</span>, <span class="str">'w'</span>) <span class="kw">as</span> zf:
+    <span class="kw">for</span> dirpath, dirnames, filenames <span class="kw">in</span> os.<span class="fn">walk</span>(<span class="str">'C:\\MyProject'</span>):
+        <span class="kw">for</span> filename <span class="kw">in</span> filenames:
+            full_path = os.path.<span class="fn">join</span>(dirpath, filename)
+            zf.<span class="fn">write</span>(full_path)
+<span class="fn">print</span>(<span class="str">'Backup complete!'</span>)</pre>
+  </div>
+
+  <div class="tip">
+    <strong>✅ Real use case:</strong> Combine <code>os.walk()</code> with <code>zipfile</code> to automatically back up an entire project folder. This is a very common and exam-favourite example!
+  </div>
+</div>
+
+<!-- ===================== UNIT IV ===================== -->
+<div class="unit-header u4">
+  <div class="unit-num">Unit IV</div>
+  <h2>Web Scraping</h2>
+  <p>Automating the browser, downloading files from the internet, and parsing HTML web pages</p>
+</div>
+
+<!-- 9. WEBBROWSER / MAPIT -->
+<div class="topic" id="webbrowser">
+  <div class="topic-header">
+    <div class="topic-icon icon-u4">🗺️</div>
+    <div>
+      <h3>9. MAPIT.PY — The webbrowser Module</h3>
+      <div class="topic-sub">UNIT IV · Browser Automation</div>
+    </div>
+  </div>
+
+  <div class="definition">
+    <div class="def-label">Definition</div>
+    <p>The <code>webbrowser</code> module provides a simple way to <strong>open URLs in the user's default web browser</strong> using Python code. The <strong>MAPIT.PY</strong> project is a classic example — it takes an address from the clipboard and opens it in Google Maps automatically.</p>
+  </div>
+
+  <h4>webbrowser Module Functions</h4>
+  <table>
+    <tr><th>Function</th><th>What it Does</th></tr>
+    <tr><td><code>webbrowser.open(url)</code></td><td>Opens URL in default browser (new tab or window)</td></tr>
+    <tr><td><code>webbrowser.open_new(url)</code></td><td>Opens URL in a NEW browser window</td></tr>
+    <tr><td><code>webbrowser.open_new_tab(url)</code></td><td>Opens URL in a NEW tab</td></tr>
+  </table>
+
+  <div class="code-wrap">
+    <div class="code-label"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span> &nbsp;basic_webbrowser.py</div>
+<pre><span class="kw">import</span> webbrowser
+
+<span class="cm"># Opens in default browser</span>
+webbrowser.<span class="fn">open</span>(<span class="str">'https://www.google.com'</span>)
+
+<span class="cm"># Search for something on Google</span>
+query = <span class="str">'Python file handling tutorial'</span>
+url = <span class="str">'https://www.google.com/search?q='</span> + query.<span class="fn">replace</span>(<span class="str">' '</span>, <span class="str">'+'</span>)
+webbrowser.<span class="fn">open</span>(url)</pre>
+  </div>
+
+  <h4>🗺️ The MAPIT.PY Project (Full Implementation)</h4>
+
+  <div class="diagram">
+    <div class="d-title">🔄 MAPIT.PY Logic Flowchart</div>
+<pre style="padding:0; background:transparent; font-size:12.5px;">
+ <span class="diag-orange">┌───────────────────────────────────────┐</span>
+ <span class="diag-orange">│  User copies address to clipboard     │</span>
+ <span class="diag-orange">│  e.g. "870 Valencia St, San Francisco"│</span>
+ <span class="diag-orange">└──────────────────┬────────────────────┘</span>
+                    │
+                    ▼
+ <span class="diag-blue">┌───────────────────────────────────────┐</span>
+ <span class="diag-blue">│  Run MAPIT.PY                         │</span>
+ <span class="diag-blue">│                                       │</span>
+ <span class="diag-blue">│  Check: sys.argv (command line args?) │</span>
+ <span class="diag-blue">└──────────────────┬────────────────────┘</span>
+          │                     │
+       <span class="diag-green">YES</span>                      <span class="diag-red">NO</span>
+          ▼                     ▼
+ <span class="diag-green">Use the address        Read clipboard</span>
+ <span class="diag-green">typed on command       (pyperclip.paste())</span>
+ <span class="diag-green">line as input</span>
+          │                     │
+          └──────────┬──────────┘
+                     ▼
+ <span class="diag-orange">┌───────────────────────────────────────┐</span>
+ <span class="diag-orange">│  Build Google Maps URL:               │</span>
+ <span class="diag-orange">│  maps.google.com/maps?q=ADDRESS       │</span>
+ <span class="diag-orange">└──────────────────┬────────────────────┘</span>
+                    │
+                    ▼
+ <span class="diag-green">┌───────────────────────────────────────┐</span>
+ <span class="diag-green">│  webbrowser.open(url)                 │</span>
+ <span class="diag-green">│  → Browser opens with map! 🗺️         │</span>
+ <span class="diag-green">└───────────────────────────────────────┘</span>
+</pre>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-label"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span> &nbsp;mapit.py — Full Project</div>
+<pre><span class="cm">#! python3</span>
+<span class="cm"># mapit.py - Launches a map in the browser using an address</span>
+<span class="cm">#            from the clipboard or command line</span>
+
+<span class="cm"># Install: pip install pyperclip</span>
+<span class="kw">import</span> webbrowser, sys, pyperclip
+
+<span class="cm"># ── Get the address from command line or clipboard ────────</span>
+<span class="kw">if</span> <span class="fn">len</span>(sys.argv) > <span class="num">1</span>:
+    <span class="cm"># User ran:  python mapit.py 870 Valencia St, San Francisco</span>
+    address = <span class="str">' '</span>.<span class="fn">join</span>(sys.argv[<span class="num">1</span>:])  <span class="cm"># join all args into one string</span>
+<span class="kw">else</span>:
+    <span class="cm"># User ran:  python mapit.py   (with address already copied)</span>
+    address = pyperclip.<span class="fn">paste</span>()        <span class="cm"># get from clipboard</span>
+
+<span class="cm"># ── Build the Google Maps URL ─────────────────────────────</span>
+<span class="cm"># Google Maps accepts addresses as URL-encoded query string</span>
+url = <span class="str">'https://www.google.com/maps/place/'</span> + address
+
+<span class="cm"># ── Open in browser ───────────────────────────────────────</span>
+webbrowser.<span class="fn">open</span>(url)
+<span class="fn">print</span>(<span class="str">f'Opening map for: </span>{address}<span class="str">'</span>)
+
+<span class="cm">"""
+Usage:
+  python mapit.py 870 Valencia St, San Francisco
+  python mapit.py                     ← uses clipboard
+"""</span></pre>
+  </div>
+
+  <div class="key-point">
+    <strong>📌 sys.argv explained:</strong> <code>sys.argv</code> is a list of command-line arguments. <code>sys.argv[0]</code> is always the script name. <code>sys.argv[1]</code> onwards are the extra arguments the user typed.
+  </div>
+</div>
+
+<!-- 10. REQUESTS MODULE -->
+<div class="topic" id="requests">
+  <div class="topic-header">
+    <div class="topic-icon icon-u4">⬇️</div>
+    <div>
+      <h3>10. Downloading Files with the requests Module</h3>
+      <div class="topic-sub">UNIT IV · HTTP Requests & File Downloads</div>
+    </div>
+  </div>
+
+  <div class="definition">
+    <div class="def-label">Definition</div>
+    <p>The <code>requests</code> module is a popular third-party library that makes it easy to <strong>send HTTP requests (GET, POST, etc.) and download content from the internet</strong>. Think of it as Python making a web request just like your browser does when you visit a website.</p>
+  </div>
+
+  <div class="tip">
+    <strong>✅ Installation:</strong> <code>pip install requests</code> (not built-in, must install separately)
+  </div>
+
+  <div class="diagram">
+    <div class="d-title">🌐 HTTP Request/Response Cycle</div>
+<pre style="padding:0; background:transparent; font-size:12.5px;">
+ <span class="diag-orange">Your Python Script</span>              <span class="diag-green">Web Server (e.g. example.com)</span>
+ ──────────────────               ─────────────────────────────
+
+ requests.get(url)   ───────────►  Server receives GET request
+                                   Server processes request
+                     ◄───────────  Server sends back Response
+
+ Response Object contains:
+   ├── <span class="diag-blue">status_code</span>   → 200 = OK, 404 = Not Found, 500 = Error
+   ├── <span class="diag-blue">text</span>          → page content as a string (HTML, JSON...)
+   ├── <span class="diag-blue">content</span>       → page content as raw bytes (for images/files)
+   └── <span class="diag-blue">headers</span>       → metadata about the response
+</pre>
+  </div>
+
+  <h4>HTTP Status Codes (Must Know!)</h4>
+  <table>
+    <tr><th>Code</th><th>Meaning</th><th>Example</th></tr>
+    <tr><td><code>200</code></td><td>✅ OK — Success</td><td>Page loaded fine</td></tr>
+    <tr><td><code>301</code></td><td>↩️ Moved Permanently</td><td>URL has changed</td></tr>
+    <tr><td><code>400</code></td><td>❌ Bad Request</td><td>Wrong URL format</td></tr>
+    <tr><td><code>403</code></td><td>🚫 Forbidden</td><td>No permission</td></tr>
+    <tr><td><code>404</code></td><td>🔍 Not Found</td><td>Page doesn't exist</td></tr>
+    <tr><td><code>500</code></td><td>💥 Server Error</td><td>Server-side problem</td></tr>
+  </table>
+
+  <div class="code-wrap">
+    <div class="code-label"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span> &nbsp;requests_basics.py</div>
+<pre><span class="kw">import</span> requests
+
+<span class="cm"># ── Basic GET request ─────────────────────────────────────</span>
+res = requests.<span class="fn">get</span>(<span class="str">'https://automatetheboringstuff.com/files/rj.txt'</span>)
+
+<span class="cm"># Check if it worked</span>
+<span class="fn">print</span>(res.status_code)  <span class="cm"># 200 = success</span>
+
+<span class="cm"># raise_for_status() will CRASH if something went wrong</span>
+res.<span class="fn">raise_for_status</span>()  <span class="cm"># raises exception if status != 200</span>
+
+<span class="fn">print</span>(<span class="fn">type</span>(res.text))    <span class="cm"># &lt;class 'str'&gt;</span>
+<span class="fn">print</span>(<span class="fn">len</span>(res.text))     <span class="cm"># total characters downloaded</span>
+<span class="fn">print</span>(res.text[:<span class="num">250</span>])    <span class="cm"># print first 250 characters</span>
+
+<span class="cm"># ── Check success with status code ───────────────────────</span>
+<span class="kw">if</span> res.status_code == <span class="num">200</span>:
+    <span class="fn">print</span>(<span class="str">'Download successful!'</span>)
+<span class="kw">elif</span> res.status_code == <span class="num">404</span>:
+    <span class="fn">print</span>(<span class="str">'Page not found!'</span>)</pre>
+  </div>
+
+  <h4>Saving Downloaded Files to Hard Drive</h4>
+  <div class="diagram">
+    <div class="d-title">💾 Download & Save Flowchart</div>
+<pre style="padding:0; background:transparent; font-size:12.5px;">
+ requests.get(url)
+         │
+         ▼
+ <span class="diag-orange">Response.content</span>  ← use .content (bytes) NOT .text (string)
+         │             for binary files (images, PDFs, ZIPs)
+         │
+         ▼
+ <span class="diag-blue">open(filename, 'wb')</span>  ← 'wb' = write BINARY mode
+         │
+         ▼
+ <span class="diag-blue">for chunk in response.iter_content(100000):</span>
+         │             write in 100KB chunks
+         ▼             (efficient for large files!)
+ <span class="diag-green">file.write(chunk)</span>
+         │
+         ▼
+ <span class="diag-green">file.close()  → File saved! ✅</span>
+</pre>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-label"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span> &nbsp;download_and_save.py</div>
+<pre><span class="kw">import</span> requests
+
+<span class="cm"># ── Download a TEXT file ──────────────────────────────────</span>
+url = <span class="str">'https://automatetheboringstuff.com/files/rj.txt'</span>
+res = requests.<span class="fn">get</span>(url)
+res.<span class="fn">raise_for_status</span>()   <span class="cm"># crash if download failed</span>
+
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">'romeo_juliet.txt'</span>, <span class="str">'wb'</span>) <span class="kw">as</span> f:
+    <span class="kw">for</span> chunk <span class="kw">in</span> res.<span class="fn">iter_content</span>(<span class="num">100000</span>):  <span class="cm"># 100,000 bytes per chunk</span>
+        f.<span class="fn">write</span>(chunk)
+
+<span class="fn">print</span>(<span class="str">'Text file saved!'</span>)
+
+<span class="cm"># ── Download an IMAGE ─────────────────────────────────────</span>
+img_url = <span class="str">'https://example.com/photo.jpg'</span>
+res = requests.<span class="fn">get</span>(img_url)
+res.<span class="fn">raise_for_status</span>()
+
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">'photo.jpg'</span>, <span class="str">'wb'</span>) <span class="kw">as</span> f:
+    <span class="kw">for</span> chunk <span class="kw">in</span> res.<span class="fn">iter_content</span>(<span class="num">100000</span>):
+        f.<span class="fn">write</span>(chunk)
+
+<span class="fn">print</span>(<span class="str">'Image saved!'</span>)
+
+<span class="cm"># ── Download a PDF/ZIP/any binary file ───────────────────</span>
+<span class="cm"># Same approach — always use 'wb' mode and iter_content()</span></pre>
+  </div>
+
+  <div class="warning">
+    <strong>⚠️ Important:</strong> Always use <code>'wb'</code> (write binary) mode when saving downloaded files — even for text files. This prevents Python from converting newline characters which could corrupt the file on Windows!
+  </div>
+
+  <div class="key-point">
+    <strong>📌 .text vs .content:</strong> Use <code>res.text</code> to get the content as a <em>string</em> (for HTML, JSON, text). Use <code>res.content</code> for raw <em>bytes</em> (for images, PDFs, ZIPs). When <em>saving</em> to disk, always use <code>iter_content()</code> for efficiency.
+  </div>
+</div>
+
+<!-- 11. HTML -->
+<div class="topic" id="html">
+  <div class="topic-header">
+    <div class="topic-icon icon-u4">🌐</div>
+    <div>
+      <h3>11. HTML — HyperText Markup Language</h3>
+      <div class="topic-sub">UNIT IV · Web Page Structure & Parsing</div>
+    </div>
+  </div>
+
+  <div class="definition">
+    <div class="def-label">Definition</div>
+    <p><strong>HTML (HyperText Markup Language)</strong> is the standard language used to create web pages. It uses <strong>tags</strong> (surrounded by angle brackets like <code>&lt;tag&gt;</code>) to define the structure and content of a web page. Web scraping involves downloading HTML and then extracting information from it.</p>
+  </div>
+
+  <div class="diagram">
+    <div class="d-title">🏗️ HTML Page Structure</div>
+<pre style="padding:0; background:transparent; font-size:12.5px;">
+ <span class="diag-orange">&lt;html&gt;</span>
+ │
+ ├── <span class="diag-blue">&lt;head&gt;</span>         ← Invisible metadata
+ │   ├── <span class="diag-green">&lt;title&gt;</span>My Page<span class="diag-green">&lt;/title&gt;</span>      ← Browser tab title
+ │   └── <span class="diag-green">&lt;meta charset="utf-8"&gt;</span>       ← Character encoding
+ │
+ └── <span class="diag-blue">&lt;body&gt;</span>         ← Everything visible to user
+     ├── <span class="diag-green">&lt;h1&gt;</span>Heading<span class="diag-green">&lt;/h1&gt;</span>                ← Big heading
+     ├── <span class="diag-green">&lt;p&gt;</span>Paragraph text here<span class="diag-green">&lt;/p&gt;</span>      ← Text paragraph
+     ├── <span class="diag-green">&lt;a href="url"&gt;</span>Link text<span class="diag-green">&lt;/a&gt;</span>    ← Hyperlink
+     ├── <span class="diag-green">&lt;img src="photo.jpg"&gt;</span>           ← Image
+     ├── <span class="diag-green">&lt;div class="box"&gt;</span>...<span class="diag-green">&lt;/div&gt;</span>     ← Container/box
+     └── <span class="diag-green">&lt;span id="name"&gt;</span>...<span class="diag-green">&lt;/span&gt;</span>   ← Inline container
+</pre>
+  </div>
+
+  <h4>Key HTML Tags for Web Scraping</h4>
+  <table>
+    <tr><th>Tag</th><th>Purpose</th><th>Important Attributes</th></tr>
+    <tr><td><code>&lt;a&gt;</code></td><td>Hyperlink / anchor</td><td><code>href</code> — the URL it points to</td></tr>
+    <tr><td><code>&lt;img&gt;</code></td><td>Image</td><td><code>src</code> — image URL, <code>alt</code> — description</td></tr>
+    <tr><td><code>&lt;div&gt;</code></td><td>Block-level container</td><td><code>class</code>, <code>id</code> — for CSS targeting</td></tr>
+    <tr><td><code>&lt;span&gt;</code></td><td>Inline container</td><td><code>class</code>, <code>id</code></td></tr>
+    <tr><td><code>&lt;p&gt;</code></td><td>Paragraph</td><td>—</td></tr>
+    <tr><td><code>&lt;h1&gt;–&lt;h6&gt;</code></td><td>Headings (1=largest)</td><td>—</td></tr>
+    <tr><td><code>&lt;table&gt;</code></td><td>Table</td><td>Contains <code>&lt;tr&gt;</code>, <code>&lt;td&gt;</code>, <code>&lt;th&gt;</code></td></tr>
+    <tr><td><code>&lt;ul&gt;/&lt;ol&gt;</code></td><td>Bullet/Numbered list</td><td>Contains <code>&lt;li&gt;</code> items</td></tr>
+  </table>
+
+  <h4>Parsing HTML with BeautifulSoup</h4>
+  <div class="definition">
+    <div class="def-label">Definition</div>
+    <p><code>BeautifulSoup</code> is a Python library that <strong>parses (reads and understands) HTML</strong> and makes it easy to search for and extract specific elements. Combined with <code>requests</code>, it forms the backbone of web scraping.</p>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-label"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span> &nbsp;beautifulsoup_demo.py</div>
+<pre><span class="cm"># pip install beautifulsoup4</span>
+<span class="kw">import</span> requests
+<span class="kw">from</span> bs4 <span class="kw">import</span> BeautifulSoup
+
+<span class="cm"># ── Step 1: Download the webpage ─────────────────────────</span>
+res = requests.<span class="fn">get</span>(<span class="str">'https://example.com'</span>)
+res.<span class="fn">raise_for_status</span>()
+
+<span class="cm"># ── Step 2: Parse the HTML ────────────────────────────────</span>
+soup = BeautifulSoup(res.text, <span class="str">'html.parser'</span>)
+
+<span class="cm"># ── Step 3: Extract data ──────────────────────────────────</span>
+
+<span class="cm"># Find the FIRST &lt;h1&gt; tag</span>
+heading = soup.<span class="fn">find</span>(<span class="str">'h1'</span>)
+<span class="fn">print</span>(heading.text)          <span class="cm"># prints just the text inside &lt;h1&gt;</span>
+
+<span class="cm"># Find ALL &lt;a&gt; tags (all links)</span>
+links = soup.<span class="fn">find_all</span>(<span class="str">'a'</span>)
+<span class="kw">for</span> link <span class="kw">in</span> links:
+    <span class="fn">print</span>(link.<span class="fn">get</span>(<span class="str">'href'</span>))   <span class="cm"># extract the href attribute (URL)</span>
+    <span class="fn">print</span>(link.text)           <span class="cm"># link's visible text</span>
+
+<span class="cm"># Find by CSS class</span>
+items = soup.<span class="fn">find_all</span>(<span class="str">'div'</span>, class_=<span class="str">'product-item'</span>)
+<span class="kw">for</span> item <span class="kw">in</span> items:
+    name = item.<span class="fn">find</span>(<span class="str">'span'</span>, class_=<span class="str">'name'</span>).text
+    price = item.<span class="fn">find</span>(<span class="str">'span'</span>, class_=<span class="str">'price'</span>).text
+    <span class="fn">print</span>(<span class="str">f'</span>{name}<span class="str">: </span>{price}<span class="str">'</span>)
+
+<span class="cm"># Find by id</span>
+header = soup.<span class="fn">find</span>(id=<span class="str">'main-header'</span>)
+<span class="fn">print</span>(header.text)
+
+<span class="cm"># Select using CSS selector (like in web development)</span>
+results = soup.<span class="fn">select</span>(<span class="str">'div.content p'</span>)  <span class="cm"># p inside div.content</span>
+<span class="kw">for</span> r <span class="kw">in</span> results:
+    <span class="fn">print</span>(r.text)</pre>
+  </div>
+
+  <h4>Complete Web Scraping Example — Scraping Quotes</h4>
+  <div class="code-wrap">
+    <div class="code-label"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span> &nbsp;complete_scraper.py</div>
+<pre><span class="kw">import</span> requests
+<span class="kw">from</span> bs4 <span class="kw">import</span> BeautifulSoup
+
+<span class="cm"># Step 1: Download</span>
+url = <span class="str">'http://quotes.toscrape.com/'</span>
+res = requests.<span class="fn">get</span>(url)
+res.<span class="fn">raise_for_status</span>()
+
+<span class="cm"># Step 2: Parse</span>
+soup = BeautifulSoup(res.text, <span class="str">'html.parser'</span>)
+
+<span class="cm"># Step 3: Find all quotes</span>
+quotes = soup.<span class="fn">find_all</span>(<span class="str">'div'</span>, class_=<span class="str">'quote'</span>)
+
+<span class="cm"># Step 4: Extract & display data</span>
+<span class="kw">for</span> quote <span class="kw">in</span> quotes:
+    text   = quote.<span class="fn">find</span>(<span class="str">'span'</span>, class_=<span class="str">'text'</span>).text
+    author = quote.<span class="fn">find</span>(<span class="str">'small'</span>, class_=<span class="str">'author'</span>).text
+    <span class="fn">print</span>(<span class="str">f'"{text}" — {author}'</span>)
+    <span class="fn">print</span>(<span class="str">'-'</span> * <span class="num">50</span>)
+
+<span class="cm"># Step 5: Save to file</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">'quotes.txt'</span>, <span class="str">'w'</span>, encoding=<span class="str">'utf-8'</span>) <span class="kw">as</span> f:
+    <span class="kw">for</span> quote <span class="kw">in</span> quotes:
+        text   = quote.<span class="fn">find</span>(<span class="str">'span'</span>, class_=<span class="str">'text'</span>).text
+        author = quote.<span class="fn">find</span>(<span class="str">'small'</span>, class_=<span class="str">'author'</span>).text
+        f.<span class="fn">write</span>(<span class="str">f'{text} — {author}\n'</span>)
+
+<span class="fn">print</span>(<span class="str">'Scraping done! Data saved to quotes.txt'</span>)</pre>
+  </div>
+
+  <div class="diagram">
+    <div class="d-title">🔄 Complete Web Scraping Pipeline</div>
+<pre style="padding:0; background:transparent; font-size:12.5px;">
+ <span class="diag-orange">┌──────────────┐</span>
+ <span class="diag-orange">│  TARGET URL   │</span>
+ <span class="diag-orange">└──────┬───────┘</span>
+        │
+        ▼
+ <span class="diag-blue">┌──────────────────────────────┐</span>
+ <span class="diag-blue">│  requests.get(url)            │</span>
+ <span class="diag-blue">│  Download raw HTML            │</span>
+ <span class="diag-blue">└──────────────┬───────────────┘</span>
+                │
+                ▼
+ <span class="diag-blue">┌──────────────────────────────┐</span>
+ <span class="diag-blue">│  raise_for_status()           │</span>
+ <span class="diag-blue">│  Check for errors             │</span>
+ <span class="diag-blue">└──────────────┬───────────────┘</span>
+                │
+                ▼
+ <span class="diag-purple">┌──────────────────────────────┐</span>
+ <span class="diag-purple">│  BeautifulSoup(html,'parser') │</span>
+ <span class="diag-purple">│  Parse HTML into soup object  │</span>
+ <span class="diag-purple">└──────────────┬───────────────┘</span>
+                │
+                ▼
+ <span class="diag-purple">┌──────────────────────────────┐</span>
+ <span class="diag-purple">│  find() / find_all()          │</span>
+ <span class="diag-purple">│  select()                     │</span>
+ <span class="diag-purple">│  Extract specific data         │</span>
+ <span class="diag-purple">└──────────────┬───────────────┘</span>
+                │
+                ▼
+ <span class="diag-green">┌──────────────────────────────┐</span>
+ <span class="diag-green">│  Save to file / database /    │</span>
+ <span class="diag-green">│  process / display results    │</span>
+ <span class="diag-green">└──────────────────────────────┘</span>
+</pre>
+  </div>
+
+  <h4>BeautifulSoup Methods Summary</h4>
+  <table>
+    <tr><th>Method</th><th>Returns</th><th>Use When</th></tr>
+    <tr><td><code>soup.find('tag')</code></td><td>First matching element</td><td>You want only 1 result</td></tr>
+    <tr><td><code>soup.find_all('tag')</code></td><td>List of all matching elements</td><td>You want multiple results</td></tr>
+    <tr><td><code>soup.find('tag', class_='cls')</code></td><td>By CSS class</td><td>Target elements by class</td></tr>
+    <tr><td><code>soup.find(id='myid')</code></td><td>By id attribute</td><td>Target unique elements</td></tr>
+    <tr><td><code>soup.select('css selector')</code></td><td>List, CSS-style search</td><td>Complex selections</td></tr>
+    <tr><td><code>element.text</code></td><td>Inner text content</td><td>Get text between tags</td></tr>
+    <tr><td><code>element.get('attr')</code></td><td>Attribute value</td><td>Get href, src, class etc.</td></tr>
+  </table>
+
+  <div class="tip">
+    <strong>✅ Exam Tip:</strong> The full web scraping pipeline is: <strong>requests.get(url) → raise_for_status() → BeautifulSoup(res.text, 'html.parser') → find/find_all() → process/save</strong>. Memorise this sequence!
+  </div>
+</div>
+
+<!-- QUICK REFERENCE -->
+<div style="background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 32px 36px; margin-bottom: 24px;">
+  <div style="font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 20px;">⚡ Quick Reference — Import Cheatsheet</div>
+  <div class="code-wrap" style="margin: 0;">
+    <div class="code-label"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span> &nbsp;all_imports.py</div>
+<pre><span class="cm"># ══ UNIT III — Files & Organizing ══════════════════════════</span>
+<span class="kw">import</span> os                 <span class="cm"># file paths, listdir, getcwd, walk</span>
+<span class="kw">import</span> os.path           <span class="cm"># exists, isfile, isdir, join, split, getsize</span>
+<span class="kw">import</span> shelve            <span class="cm"># persistent dictionary storage</span>
+<span class="kw">import</span> pprint            <span class="cm"># pretty print, pformat</span>
+<span class="kw">import</span> shutil            <span class="cm"># copy, move, copytree, rmtree</span>
+<span class="kw">import</span> zipfile           <span class="cm"># ZipFile, namelist, extract, write</span>
+
+<span class="cm"># ══ UNIT IV — Web Scraping ══════════════════════════════════</span>
+<span class="kw">import</span> webbrowser        <span class="cm"># open URLs in browser</span>
+<span class="kw">import</span> sys               <span class="cm"># sys.argv for command-line arguments</span>
+<span class="kw">import</span> requests          <span class="cm"># HTTP requests, download files (pip install)</span>
+<span class="kw">import</span> pyperclip         <span class="cm"># clipboard access (pip install)</span>
+<span class="kw">from</span> bs4 <span class="kw">import</span> BeautifulSoup  <span class="cm"># HTML parsing (pip install beautifulsoup4)</span></pre>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div style="text-align:center; padding: 30px 0; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 12px; border-top: 1px solid var(--border); margin-top: 20px;">
+  <div style="font-size: 24px; margin-bottom: 10px;">🐍</div>
+  Python Mid-Term Study Notes · Unit III & IV · Good luck on your exam! 🍀
+</div>
+
+</div><!-- /container -->
+</body>
+</html>
